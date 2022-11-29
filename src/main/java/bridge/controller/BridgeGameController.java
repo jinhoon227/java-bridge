@@ -11,24 +11,21 @@ import bridge.service.Player;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 
-public class BridgeGameController {
+public class BridgeGameController extends AbstractGameController{
 
     private final InputView inputView = new InputView();
     private final OutputView outputView = new OutputView();
 
     private BridgeGame bridgeGame;
 
-    public void runBridgeGame() {
-        createBridgeGame();
-        startGame();
-        endGame();
-    }
-
-    private void endGame() {
+    @Override
+    protected void endGame() {
         outputView.printResult(bridgeGame.getPlayerResult());
     }
 
-    private void startGame() {
+    @Override
+    protected void startGame() {
+        createBridgeGame();
         do {
             bridgeGame.initBridgeGame();
             if (movePlayer()) {
