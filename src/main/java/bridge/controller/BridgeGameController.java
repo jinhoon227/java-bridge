@@ -4,25 +4,57 @@ import bridge.BridgeMaker;
 import bridge.BridgeRandomNumberGenerator;
 import bridge.domain.Bridge;
 import bridge.domain.BridgeSizeCommand;
+import bridge.domain.MovementCommand;
+import bridge.service.BridgeGame;
+import bridge.service.Player;
 import bridge.view.InputView;
 import bridge.view.OutputView;
 
 public class BridgeGameController {
 
-    InputView inputView = new InputView();
-    OutputView outputView = new OutputView();
+    private final InputView inputView = new InputView();
+    private final OutputView outputView = new OutputView();
+
+    private BridgeGame bridgeGame;
 
     public void runBridgeGame() {
+        createBridgeGame();
         startGame();
-        playGame();
-    }
-
-    private void playGame() {
     }
 
     private void startGame() {
+        do {
+            bridgeGame.initBridgeGame();
+            if (movePlayer()) {
+                return;
+            }
+        } while (bridgeGame.retry());
+    }
+
+    private boolean movePlayer() {
+        while (!bridgeGame.isGameClear()) {
+            bridgeGame.move(askMovement());
+            outputView.printMap(bridgeGame.playerMoveRecord());
+            if (!bridgeGame.isPlayerMove()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private MovementCommand askMovement() {
+        outputView.printChoiceMove();
+        return inputView.readMoving();
+    }
+
+    private void createBridgeGame() {
         outputView.printStartGame();
-        makeBridge();
+
+        Bridge bridge = makeBridge();
+        Player player = new Player();
+        outputView.printNewline();
+
+        bridgeGame = new BridgeGame(bridge, player);
     }
 
     private Bridge makeBridge() {

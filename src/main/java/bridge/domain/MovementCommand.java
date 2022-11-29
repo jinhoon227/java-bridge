@@ -24,4 +24,15 @@ public enum MovementCommand {
                 .map(movement -> movement.command)
                 .orElseThrow(MovementCommandInvalidException::new);
     }
+
+    public static MovementCommand commandOf(String command) {
+        return Arrays.stream(values())
+                .filter(movement -> movement.command.equals(command))
+                .findAny()
+                .orElseThrow(MovementCommandInvalidException::new);
+    }
+
+    public String getCommand() {
+        return command;
+    }
 }
