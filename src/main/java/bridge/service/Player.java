@@ -46,4 +46,8 @@ public class Player {
     public MoveRecord getMoveRecord() {
         return moveRecord;
     }
+
+    public int getTotalTry() {
+        return totalTry;
+    }
 }

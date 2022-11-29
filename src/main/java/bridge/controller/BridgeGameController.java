@@ -21,10 +21,12 @@ public class BridgeGameController {
     public void runBridgeGame() {
         createBridgeGame();
         startGame();
-
+        endGame();
     }
 
-
+    private void endGame() {
+        outputView.printResult(bridgeGame.getPlayerResult());
+    }
 
     private void startGame() {
         do {

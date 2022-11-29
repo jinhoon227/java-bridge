@@ -52,5 +52,7 @@ public class BridgeGame {
         return retryCommand.getValue();
     }
 
-
+    public Player getPlayerResult() {
+        return player;
+    }
 }
