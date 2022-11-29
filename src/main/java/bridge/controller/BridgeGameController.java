@@ -5,6 +5,7 @@ import bridge.BridgeRandomNumberGenerator;
 import bridge.domain.Bridge;
 import bridge.domain.BridgeSizeCommand;
 import bridge.domain.MovementCommand;
+import bridge.domain.RetryCommand;
 import bridge.service.BridgeGame;
 import bridge.service.Player;
 import bridge.view.InputView;
@@ -20,7 +21,10 @@ public class BridgeGameController {
     public void runBridgeGame() {
         createBridgeGame();
         startGame();
+
     }
+
+
 
     private void startGame() {
         do {
@@ -28,7 +32,12 @@ public class BridgeGameController {
             if (movePlayer()) {
                 return;
             }
-        } while (bridgeGame.retry());
+        } while (bridgeGame.retry(askRetry()));
+    }
+
+    private RetryCommand askRetry() {
+        outputView.printPleaseInputRetry();
+        return inputView.readGameCommand();
     }
 
     private boolean movePlayer() {
